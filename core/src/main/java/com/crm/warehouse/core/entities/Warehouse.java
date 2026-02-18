@@ -18,7 +18,6 @@ public class Warehouse {
     @Column(name = "warehouse_id")
     private Integer id;
 
-
     @Column(nullable = false)
     private Double latitude;
 
@@ -27,7 +26,6 @@ public class Warehouse {
 
     @Column(nullable = false)
     private Integer capacity;
-
 
     @Column(nullable = false, name = "is_active")
     private Boolean active;
