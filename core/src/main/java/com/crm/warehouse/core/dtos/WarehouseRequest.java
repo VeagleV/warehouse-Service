@@ -22,14 +22,17 @@ public class WarehouseRequest {
     @JsonProperty
     @DecimalMax(value = "90.0", message = "Широта не может быть больше 90")
     @DecimalMin(value = "-90.0", message = "Широта не может быть меньше -90")
+    @NotNull
     private Double latitude;
 
     @JsonProperty
     @DecimalMax(value = "180.0", message = "Долгота не может быть больше 180")
     @DecimalMin(value = "-180.0", message = "Долгота не может быть меньше -180")
+    @NotNull
     private Double longitude;
 
     @PositiveOrZero
     @JsonProperty
+    @NotNull
     private Integer capacity;
 }

@@ -42,7 +42,10 @@ public class WarehouseService {
     public ResponseEntity<WarehouseResponse> updateWarehouseById(Integer id, WarehouseRequest warehouseRequest) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
         if (warehouse == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        saveWarehouse(warehouseRequest);
+        Warehouse updatedWarehouse = warehouseMapper.toWarehouse(warehouseRequest);
+        updatedWarehouse.setId(warehouse.getId());
+        updatedWarehouse.setActive(warehouse.getActive());
+        warehouseRepository.save(updatedWarehouse);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
