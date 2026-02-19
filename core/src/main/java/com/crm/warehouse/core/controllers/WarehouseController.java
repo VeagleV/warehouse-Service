@@ -5,6 +5,7 @@ import com.crm.warehouse.core.dtos.WarehouseResponse;
 import com.crm.warehouse.core.services.WarehouseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class WarehouseController {
 
     @Operation(summary = "Добавление нового склада")
     @PostMapping
-    public ResponseEntity<WarehouseResponse> createWarehouse(@RequestBody WarehouseRequest warehouseRequest) {
+    public ResponseEntity<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
         return warehouseService.saveWarehouse(warehouseRequest);
     }
 
@@ -42,7 +43,7 @@ public class WarehouseController {
 
     @Operation(summary = "обновление склада по id")
     @PutMapping("/{id}")
-    public ResponseEntity<WarehouseResponse> updateWarehouse(@PathVariable Integer id, @RequestBody WarehouseRequest warehouseRequest) {
+    public ResponseEntity<WarehouseResponse> updateWarehouse(@PathVariable Integer id, @RequestBody @Valid WarehouseRequest warehouseRequest) {
         return warehouseService.updateWarehouseById(id, warehouseRequest);
     }
 
