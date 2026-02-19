@@ -41,7 +41,7 @@ public class WarehouseController {
         return warehouseService.findWarehouseById(id);
     }
 
-    @Operation(summary = "обновление склада по id")
+    @Operation(summary = "Обновление склада по id")
     @PutMapping("/{id}")
     public ResponseEntity<WarehouseResponse> updateWarehouse(@PathVariable Integer id, @RequestBody @Valid WarehouseRequest warehouseRequest) {
         return warehouseService.updateWarehouseById(id, warehouseRequest);

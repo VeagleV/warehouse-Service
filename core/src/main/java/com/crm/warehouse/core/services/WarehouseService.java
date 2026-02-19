@@ -28,7 +28,7 @@ public class WarehouseService {
 
     public ResponseEntity<WarehouseResponse> findWarehouseById(Integer id) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
-        if (warehouse == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (warehouse == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(warehouseMapper.toWarehouseResponse(warehouse), HttpStatus.OK);
     }
 
@@ -41,11 +41,12 @@ public class WarehouseService {
 
     public ResponseEntity<WarehouseResponse> updateWarehouseById(Integer id, WarehouseRequest warehouseRequest) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
-        if (warehouse == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        Warehouse updatedWarehouse = warehouseMapper.toWarehouse(warehouseRequest);
-        updatedWarehouse.setId(warehouse.getId());
-        updatedWarehouse.setActive(warehouse.getActive());
-        warehouseRepository.save(updatedWarehouse);
+        if (warehouse == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        warehouse.setName(warehouseRequest.getName());
+        warehouse.setLatitude(warehouseRequest.getLatitude());
+        warehouse.setLongitude(warehouseRequest.getLongitude());
+        warehouse.setCapacity(warehouseRequest.getCapacity());
+        warehouseRepository.save(warehouse);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

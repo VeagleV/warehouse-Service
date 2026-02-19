@@ -35,7 +35,7 @@ public class Warehouse {
     private Boolean active;
 
     @PrePersist
-    public void prepersist() {
+    public void prePersist() {
         if (active == null) {
             active = true;
         }
