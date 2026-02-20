@@ -3,6 +3,7 @@ package com.crm.warehouse.core.services;
 import com.crm.warehouse.core.dtos.WarehouseRequest;
 import com.crm.warehouse.core.dtos.WarehouseResponse;
 import com.crm.warehouse.core.entities.Warehouse;
+import com.crm.warehouse.core.exceptions.ResourceNotFoundException;
 import com.crm.warehouse.core.mappers.WarehouseMapper;
 import com.crm.warehouse.core.repositories.WarehouseRepository;
 import org.springframework.stereotype.Service;
@@ -37,22 +38,20 @@ public class WarehouseService {
                 .map(warehouseMapper::toWarehouseResponse).toList();
     }
 
-    public Boolean updateWarehouseById(Integer id, WarehouseRequest warehouseRequest) {
+    public void updateWarehouseById(Integer id, WarehouseRequest warehouseRequest) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
-        if (warehouse == null) return false;
+        if (warehouse == null) throw new ResourceNotFoundException("There is no warehouse with ID = " + id);
         warehouse.setName(warehouseRequest.getName());
         warehouse.setLatitude(warehouseRequest.getLatitude());
         warehouse.setLongitude(warehouseRequest.getLongitude());
         warehouse.setCapacity(warehouseRequest.getCapacity());
         warehouseRepository.save(warehouse);
-        return true ;
     }
 
-    public Boolean deleteWarehouseById(Integer id) {
+    public void deleteWarehouseById(Integer id) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
-        if (warehouse == null)  return false;
+        if (warehouse == null) throw new ResourceNotFoundException("There is no warehouse with ID = " + id);
         warehouse.setActive(false);
         warehouseRepository.save(warehouse);
-        return true;
     }
 }

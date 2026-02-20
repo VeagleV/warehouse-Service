@@ -48,17 +48,15 @@ public class WarehouseController {
     @Operation(summary = "Обновление склада по id")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateWarehouse(@PathVariable Integer id, @RequestBody @Valid WarehouseRequest warehouseRequest) {
-        return warehouseService.updateWarehouseById(id, warehouseRequest)
-                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        warehouseService.updateWarehouseById(id, warehouseRequest);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Operation(summary = "'мягкое' удаление склада по id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWarehouseById(@PathVariable Integer id) {
-        return warehouseService.deleteWarehouseById(id)
-                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        warehouseService.deleteWarehouseById(id);
+        return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
