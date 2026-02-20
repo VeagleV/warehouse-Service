@@ -6,6 +6,7 @@ import com.crm.warehouse.core.services.WarehouseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,31 +27,38 @@ public class WarehouseController {
     @Operation(summary = "Добавление нового склада")
     @PostMapping
     public ResponseEntity<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
-        return warehouseService.saveWarehouse(warehouseRequest);
+       WarehouseResponse warehouseResponse = warehouseService.saveWarehouse(warehouseRequest);
+       return new ResponseEntity<>(warehouseResponse, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Все склады")
     @GetMapping
     public ResponseEntity<List<WarehouseResponse>> getAllWarehouses() {
-        return warehouseService.findAllWarehouses();
+        List<WarehouseResponse> warehouseResponseList = warehouseService.findAllWarehouses();
+        return new ResponseEntity<>(warehouseResponseList, HttpStatus.OK);
     }
 
     @Operation(summary = "Склад по id")
     @GetMapping("/{id}")
     public ResponseEntity<WarehouseResponse> getWarehouseById(@PathVariable Integer id) {
-        return warehouseService.findWarehouseById(id);
+        WarehouseResponse warehouseResponse = warehouseService.findWarehouseById(id);
+        return new ResponseEntity<>(warehouseResponse, HttpStatus.OK);
     }
 
     @Operation(summary = "Обновление склада по id")
     @PutMapping("/{id}")
-    public ResponseEntity<WarehouseResponse> updateWarehouse(@PathVariable Integer id, @RequestBody @Valid WarehouseRequest warehouseRequest) {
-        return warehouseService.updateWarehouseById(id, warehouseRequest);
+    public ResponseEntity<Void> updateWarehouse(@PathVariable Integer id, @RequestBody @Valid WarehouseRequest warehouseRequest) {
+        return warehouseService.updateWarehouseById(id, warehouseRequest)
+                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Operation(summary = "'мягкое' удаление склада по id")
     @DeleteMapping("/{id}")
-    public ResponseEntity<WarehouseResponse> deleteWarehouseById(@PathVariable Integer id) {
-        return warehouseService.deleteWarehouseById(id);
+    public ResponseEntity<Void> deleteWarehouseById(@PathVariable Integer id) {
+        return warehouseService.deleteWarehouseById(id)
+                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 

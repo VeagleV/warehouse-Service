@@ -5,8 +5,6 @@ import com.crm.warehouse.core.dtos.WarehouseResponse;
 import com.crm.warehouse.core.entities.Warehouse;
 import com.crm.warehouse.core.mappers.WarehouseMapper;
 import com.crm.warehouse.core.repositories.WarehouseRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -21,40 +19,40 @@ public class WarehouseService {
         this.warehouseMapper = warehouseMapper;
     }
 
-    public ResponseEntity<WarehouseResponse> saveWarehouse(WarehouseRequest warehouseRequest) {
+    public WarehouseResponse saveWarehouse(WarehouseRequest warehouseRequest) {
         Warehouse savedWarehouse = warehouseRepository.save(warehouseMapper.toWarehouse(warehouseRequest));
-        return new ResponseEntity<>(warehouseMapper.toWarehouseResponse(savedWarehouse), HttpStatus.CREATED);
+        //return new ResponseEntity<>(warehouseMapper.toWarehouseResponse(savedWarehouse), HttpStatus.CREATED);
+        return warehouseMapper.toWarehouseResponse(savedWarehouse);
     }
 
-    public ResponseEntity<WarehouseResponse> findWarehouseById(Integer id) {
+    public WarehouseResponse findWarehouseById(Integer id) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
-        if (warehouse == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(warehouseMapper.toWarehouseResponse(warehouse), HttpStatus.OK);
+        if (warehouse == null) return null;
+        return warehouseMapper.toWarehouseResponse(warehouse);
     }
 
-    public ResponseEntity<List<WarehouseResponse>> findAllWarehouses() {
+    public List<WarehouseResponse> findAllWarehouses() {
         List<Warehouse> warehouses = warehouseRepository.findByActiveIsTrue();
-        List<WarehouseResponse> warehouseResponseList = warehouses.stream()
+        return warehouses.stream()
                 .map(warehouseMapper::toWarehouseResponse).toList();
-        return new ResponseEntity<>(warehouseResponseList, HttpStatus.OK);
     }
 
-    public ResponseEntity<WarehouseResponse> updateWarehouseById(Integer id, WarehouseRequest warehouseRequest) {
+    public Boolean updateWarehouseById(Integer id, WarehouseRequest warehouseRequest) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
-        if (warehouse == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (warehouse == null) return false;
         warehouse.setName(warehouseRequest.getName());
         warehouse.setLatitude(warehouseRequest.getLatitude());
         warehouse.setLongitude(warehouseRequest.getLongitude());
         warehouse.setCapacity(warehouseRequest.getCapacity());
         warehouseRepository.save(warehouse);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return true ;
     }
 
-    public ResponseEntity<WarehouseResponse> deleteWarehouseById(Integer id) {
+    public Boolean deleteWarehouseById(Integer id) {
         Warehouse warehouse = warehouseRepository.findByIdAndActiveIsTrue(id).orElse(null);
-        if (warehouse == null)  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (warehouse == null)  return false;
         warehouse.setActive(false);
         warehouseRepository.save(warehouse);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return true;
     }
 }
