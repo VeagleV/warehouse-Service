@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/warehouse")
@@ -40,7 +39,7 @@ public class WarehouseController {
     }
 
     @Operation(summary = "Возвращает информацию о складах пачкой")
-    @GetMapping("/bulk")
+    @PostMapping("/bulk")
     public ResponseEntity<List<WarehouseResponse>> getWarehousesByIdList(@RequestBody List<Integer> idList) {
         List<WarehouseResponse> warehouseResponseList = idList.stream().map(warehouseService::findWarehouseById).toList();
         return new ResponseEntity<>(warehouseResponseList, HttpStatus.OK);

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Schema(name = "DTO склада(Response)")
 public class WarehouseResponse {
 
-    @JsonProperty
+    @JsonProperty("warehouse_id")
     @NotNull
     private Integer id;
 
