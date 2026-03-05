@@ -96,6 +96,13 @@
             <version>5.0.1</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/io.github.veaglev/profiling-spring-boot-starter -->
+        <dependency>
+            <groupId>io.github.veaglev</groupId>
+            <artifactId>profiling-spring-boot-starter</artifactId>
+            <version>0.2.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

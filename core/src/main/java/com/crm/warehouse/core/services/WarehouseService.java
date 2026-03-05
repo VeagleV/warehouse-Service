@@ -6,10 +6,12 @@ import com.crm.warehouse.core.entities.Warehouse;
 import com.crm.warehouse.core.exceptions.ResourceNotFoundException;
 import com.crm.warehouse.core.mappers.WarehouseMapper;
 import com.crm.warehouse.core.repositories.WarehouseRepository;
+import org.profiling.Profiling;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Profiling
 public class WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
